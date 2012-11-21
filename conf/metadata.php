@@ -1,0 +1,3 @@
+<?php
+
+$meta['indexnames'] = array('');
