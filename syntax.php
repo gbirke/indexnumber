@@ -108,7 +108,7 @@ class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
             return false;
         }
         if($data[0] == DOKU_LEXER_ENTER) {
-            $anchor = preg_replace('/[^a-z]/', '_', $data[1]).'_'.$data[2];
+            $anchor = preg_replace('/[^a-z]/i', '_', $data[1]).'_'.$data[2];
             $R->doc .= '<div id="'.$anchor.'" class="idxnum_container">';
             return true;
         }
