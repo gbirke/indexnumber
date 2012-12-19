@@ -84,15 +84,6 @@ class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
                 $this->idxnumbers[$idxId]++;
             }
             $description = trim($matches[3], '"');
-            if($matches[2] !== '') {
-                $data = array(
-                    'idxId'  => $idxId,
-                    'number' => $this->idxnumbers[$idxId],
-                    'ref'    => trim($matches[2], '#'),
-                    'text'   => $description
-                );
-                trigger_event("PARSER_IDXNUM_OPEN", $data);
-            }
             $tagData = array($state, $idxId, $this->idxnumbers[$idxId], $matches[2], $description);
             if($this->tag_stack->isEmpty()) {
                 $this->tag_stack->push($tagData);
