@@ -13,8 +13,16 @@ require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
 
+    /**
+     * Current counter value for each counter
+     * @var type array
+     */
     protected $idxnumbers = array();
 
+    /**
+     * Stack for avoiding nested tags
+     * @var type SplStack
+     */
     protected $tag_stack;
 
     public function __construct(){
@@ -102,6 +110,14 @@ class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
 
     /**
      * Create output
+     * 
+     * The data is an array with with following keys:
+     * 
+     * 0 - state (DOKU_LEXER_ENTER, DOKU_LEXER_EXIT, DOKU_LEXER_UNMATCHED)
+     * 1 - Counter name
+     * 2 - Counter value
+     * 3 - Counter reference id, without # 
+     * 4 - Description text
      */
     function render($format, &$R, $data) {
         if($format != 'xhtml'){
