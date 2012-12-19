@@ -9,14 +9,40 @@ Individual counters can be referenced with the indexreference plugin.
 Copy the "indexnumber" folder into the `lib/plugins` folder of your DokuWiki installation.
 
 ## Tag syntax
-Syntax for creating a counter number is `<idxnum countername #id Description>`.
+Syntax for creating a counter number is `<idxnum countername #id Description>`.  
 `countername` is an arbitrary string like "Tab." or "Fig." that must not contain
 the "#" character. All `idxnum` tags with the same counter name will produce sequential
-numbers. `#id` must be a number, prefixed by the # char. It can be used for
-referencing the generated number with the indexreference plugin. 'Description' is an
-arbitrary description and will be added to the output after the index number.
-You can leave out the description but if you have a description you **must** have
-an id.
+numbers.  
+`#id` must be a number, prefixed by the # char. It can be used for referencing 
+the generated number with the indexreference plugin.  
+`Description` is an arbitrary description and will be added to the output after
+the index number. You can leave out the description but if you have a description 
+you **must** have an id.
+
+### Example Page
+
+    This is the first image:
+    <idxnum Fig.>
+    {{computer.jpg}}
+    </idxnum>
+
+    This is the second image, with a description. Note that the id is arbitrary
+    <idxnum Fig. #99 A beautiful tree>
+    {{tree.jpg}}
+    </idxnum>
+
+    Interspersed table with a different counter:
+    <idxnum Tab. #1 Some numbers>
+    ^Foo^Bar^
+    |42|47|
+    |7|11|
+    |6|0|
+    </idxnum>
+
+    Third image. Note how the counter is independent from id and the table counter
+    <idxnum Fig. #4 Snowy landscape>
+    {{snow.jpg}}
+    </idxnum>
 
 
 
