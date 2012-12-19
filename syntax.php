@@ -13,27 +13,41 @@ require_once(DOKU_PLUGIN.'syntax.php');
 
 class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
 
+    /**
+     * Current counter value for each counter
+     * @var type array
+     */
     protected $idxnumbers = array();
-    protected $idxrefs = array();
 
-    const TYPE_UNKNOWN = 0;
-    const TYPE_IDXNUM  = 1;
-    const TYPE_IDXREF  = 2;
-    const TYPE_WRONG_IDX = 3;
-    const TYPE_WRONG_REF = 4;
+    /**
+     * Stack for avoiding nested tags
+     * @var type SplStack
+     */
+    protected $tag_stack;
+    
+    /**
+     * Separator between counter and description
+     * @var type string
+     */
+    protected $separator;
+
+    public function __construct(){
+        $this->tag_stack = new SplStack();
+        $this->separator = $this->getConf('separator');
+    }
 
     /**
      * What about paragraphs?
      */
     function getPType(){
-        return 'normal';
+        return 'block';
     }
 
     /**
      * What kind of syntax are we?
      */
     function getType(){
-        return 'substition';
+        return 'container';
     }
 
     /**
@@ -43,22 +57,25 @@ class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
         return 200;
     }
 
+    function getAllowedTypes() { return array('container', 'substition', 'protected', 'disabled', 'formatting', 'paragraphs'); }
+
     /**
      * Connect pattern to lexer
      */
     function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('<idx(?:num|ref) .*?>',$mode,'plugin_indexnumber');
+        $this->Lexer->addEntryPattern('<idxnum .*?>',$mode,'plugin_indexnumber');
+    }
+
+    function postConnect() {
+        $this->Lexer->addExitPattern('</idxnum>', 'plugin_indexnumber');
     }
 
     /**
      * Handle the match
      */
     function handle($match, $state, $pos, &$handler) {
-        if($state !== DOKU_LEXER_SPECIAL ) {
-            return array();
-        }
-
-        if(preg_match('/<idxnum ([^\d]*)(\d*)\s*>/', $match, $matches)) {
+        if($state == DOKU_LEXER_ENTER && preg_match('/<idxnum ([^#]+)(?:#(\d+)(.*))?>/', $match, $matches)) {
+            error_log(var_export($matches, true));
             $idxId = trim($matches[1]);
             if(empty($this->idxnumbers[$idxId])) {
                 $this->idxnumbers[$idxId] = 1;
@@ -66,53 +83,56 @@ class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
             else {
                 $this->idxnumbers[$idxId]++;
             }
-            if($matches[2] !== '') {
-                $this->idxrefs[$idxId][$matches[2]] = $this->idxnumbers[$idxId];
-            }
-            return array(self::TYPE_IDXNUM, $idxId, $this->idxnumbers[$idxId]);
-        }
-        elseif(preg_match('/<idxref ([^\d]*)(\d+)\s*>/', $match, $matches)) {
-            $idxId = trim($matches[1]);
-            if(!isset($this->idxrefs[$idxId])) {
-                return array(self::TYPE_WRONG_IDX, $idxId);
-            }
-            elseif (empty($this->idxrefs[$idxId][$matches[2]])) {
-                return array(self::TYPE_WRONG_REF, $idxId, $matches[2]);
-            }
-            else {
-                return array(self::TYPE_IDXREF, $idxId, $this->idxrefs[$idxId][$matches[2]]);
+            $description = trim($matches[3], '"');
+            $tagData = array($state, $idxId, $this->idxnumbers[$idxId], $matches[2], $description);
+            if($this->tag_stack->isEmpty()) {
+                $this->tag_stack->push($tagData);
+                return $tagData;
             }
         }
-        else {
-            return array(self::TYPE_UNKNOWN, $match);
+        elseif($state == DOKU_LEXER_EXIT) {
+            if(!$this->tag_stack->isEmpty()) {
+                $tagData = $this->tag_stack->pop();
+                $tagData[0] = $state;
+                return $tagData;
+            }
         }
+        elseif($state == DOKU_LEXER_UNMATCHED) {
+            return array($state, $match);
+        }
+
+        // Ignore errors
+        return array();
+
     }
 
     /**
      * Create output
+     * 
+     * The data is an array with with following keys:
+     * 
+     * 0 - state (DOKU_LEXER_ENTER, DOKU_LEXER_EXIT, DOKU_LEXER_UNMATCHED)
+     * 1 - Counter name
+     * 2 - Counter value
+     * 3 - Counter reference id, without # 
+     * 4 - Description text
      */
     function render($format, &$R, $data) {
-        if($format == 'xhtml'){
-            switch ($data[0]) {
-                case self::TYPE_IDXNUM:
-                    $anchor = preg_replace('/[^a-z]/', '_', $data[1]).'_'.$data[2];
-                    $R->doc .= '<span class="idxnum" id="'.$anchor.'">'.$data[1].' '.$data[2].':</span>';
-                    break;
-                case self::TYPE_IDXREF:
-                    $anchor = preg_replace('/[^a-z]/', '_', $data[1]).'_'.$data[2];
-                    $R->doc .= '<a class="idxref" href="#'.$anchor.'">'.$data[1].' '.$data[2].'</a>';
-                    break;
-                case self::TYPE_WRONG_IDX:
-                    $R->doc .= '<span class="idxref noidx">'.sprintf($this->getLang('idxnotfound'), $data[1]).'</span>';
-                    break;
-                case self::TYPE_WRONG_REF:
-                    $R->doc .= '<span class="idxref noref">'.$data[1].' ???</span>';
-                    break;
-                case self::TYPE_UNKNOWN:
-                    $R->doc .= $data[1];
-                    break;
-            }
+        if($format != 'xhtml'){
+            return false;
+        }
+        if($data[0] == DOKU_LEXER_ENTER) {
+            $anchor = preg_replace('/[^a-z]/i', '_', $data[1]).'_'.$data[2];
+            $R->doc .= '<div id="'.$anchor.'" class="idxnum_container">';
             return true;
+        }
+        elseif($data[0] == DOKU_LEXER_EXIT) {
+            $R->doc .= '<p class="idxnum"><span class="counter">'.$data[1].' '.$data[2].$this->separator.'</span>';
+            $R->doc .= $data[4].'</p></div>';
+            return true;
+        }
+        elseif($data[0] == DOKU_LEXER_UNMATCHED) {
+            $R->doc .= $R->_xmlEntities($data[1]);
         }
         return false;
     }
