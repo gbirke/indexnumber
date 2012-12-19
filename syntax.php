@@ -24,9 +24,16 @@ class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
      * @var type SplStack
      */
     protected $tag_stack;
+    
+    /**
+     * Separator between counter and description
+     * @var type string
+     */
+    protected $separator;
 
     public function __construct(){
         $this->tag_stack = new SplStack();
+        $this->separator = $this->getConf('separator');
     }
 
     /**
@@ -129,7 +136,8 @@ class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
             return true;
         }
         elseif($data[0] == DOKU_LEXER_EXIT) {
-            $R->doc .= '<p class="idxnum">'.$data[1].' '.$data[2].$data[4].'</p></div>';
+            $R->doc .= '<p class="idxnum"><span class="counter">'.$data[1].' '.$data[2].$this->separator.'</span>';
+            $R->doc .= $data[4].'</p></div>';
             return true;
         }
         elseif($data[0] == DOKU_LEXER_UNMATCHED) {
