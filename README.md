@@ -1,12 +1,15 @@
-# Index Numbers plugin
+# Index numbers plugin
 
 This DokuWiki syntax plugin creates counters with prefixes, for numbering
 and labeling images and tables with indexes like "Tab. 1: Types of animals"
-or "Fig. 3".
-Individual counters can be referenced with the indexreference plugin.
+or "Fig. 3". The content between the `idxnum` tags will be wrapped in a 
+`<div>` tag in the HTML output.
+
+Individual counters and their prefix can be referenced with the
+[indexreference](https://github.com/gbirke/indexreference) plugin.
 
 ## Installation
-Copy the "indexnumber" folder into the `lib/plugins` folder of your DokuWiki installation.
+Copy the `indexnumber` folder into the `lib/plugins` folder of your DokuWiki installation.
 
 ## Tag syntax
 Syntax for creating a counter number is `<idxnum countername #id Description>`.  
@@ -18,6 +21,8 @@ the generated number with the indexreference plugin.
 `Description` is an arbitrary description and will be added to the output after
 the index number. You can leave out the description but if you have a description 
 you **must** have an id.
+
+Please note that `idxnum` tags cannot be nested!
 
 ### Example Page
 
