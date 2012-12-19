@@ -1,0 +1,5 @@
+/* Index numbers and descriptions should be in close proximity to their content */
+.dokuwiki .page p.idxnum {
+    margin-top:0;
+    page-break-before: avoid;
+}
