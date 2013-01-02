@@ -75,7 +75,6 @@ class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
      */
     function handle($match, $state, $pos, &$handler) {
         if($state == DOKU_LEXER_ENTER && preg_match('/<idxnum ([^#]+)(?:#(\d+)(.*))?>/', $match, $matches)) {
-            error_log(var_export($matches, true));
             $idxId = trim($matches[1]);
             if(empty($this->idxnumbers[$idxId])) {
                 $this->idxnumbers[$idxId] = 1;
