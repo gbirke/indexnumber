@@ -21,7 +21,7 @@ the generated number with the indexreference plugin.
 `Description` is an arbitrary description and will be added to the output after
 the index number. You can leave out the description but if you have a description 
 you **must** have an id. If the description contains angle brackets, they must be 
-escaped as their entities (&lt; and &gt;).
+escaped as their entities (`&lt;` and `&gt;`).
 
 Please note that `idxnum` tags cannot be nested!
 
