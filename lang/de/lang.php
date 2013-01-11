@@ -1,3 +1,3 @@
 <?php
 
-$lang['idxnotfound'] = "Zähler '%s' nicht gefunden";
+$lang['toolbar_title'] = "Index einfügen";
