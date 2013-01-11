@@ -1,3 +1,3 @@
 <?php
 
-$lang['idxnotfound'] = "Counter type '%s' not found";
+$lang['toolbar_title'] = "Insert index number";

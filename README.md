@@ -11,6 +11,13 @@ Individual counters and their prefix can be referenced with the
 ## Installation
 Copy the `indexnumber` folder into the `lib/plugins` folder of your DokuWiki installation.
 
+If you want to insert specific counter names (see below), go to the Wiki 
+configuration page and edit the field for index numbers configuration. 
+Put each counter name on a new line.
+
+If you want to have separator chars between the index number and the description 
+you can also configure that on the wiki configuration page.
+
 ## Tag syntax
 Syntax for creating a counter number is `<idxnum countername #id Description>`.  
 `countername` is an arbitrary string like "Tab." or "Fig." that must not contain
@@ -49,6 +56,13 @@ Please note that `idxnum` tags cannot be nested!
     {{snow.jpg}}
     </idxnum>
 
+## Changelog
+
+### Version 1.0
+First release
+
+### Version 1.1
+Toolbar buttons
 
 
 
