@@ -75,7 +75,6 @@ class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
      */
     function handle($match, $state, $pos, &$handler) {
         if($state == DOKU_LEXER_ENTER && preg_match('/<idxnum ([^#]+)(?:#(\d+)(.*))?>/', $match, $matches)) {
-            error_log(var_export($matches, true));
             $idxId = trim($matches[1]);
             if(empty($this->idxnumbers[$idxId])) {
                 $this->idxnumbers[$idxId] = 1;
@@ -83,7 +82,8 @@ class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
             else {
                 $this->idxnumbers[$idxId]++;
             }
-            $description = trim($matches[3], '"');
+            $description = trim($matches[3]);
+            $description = str_replace(array('<', '>'), array('&lt;', '&gt;'), $description); // Replace angle brackets
             $tagData = array($state, $idxId, $this->idxnumbers[$idxId], $matches[2], $description);
             if($this->tag_stack->isEmpty()) {
                 $this->tag_stack->push($tagData);

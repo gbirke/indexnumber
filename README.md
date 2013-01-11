@@ -27,7 +27,8 @@ numbers.
 the generated number with the indexreference plugin.  
 `Description` is an arbitrary description and will be added to the output after
 the index number. You can leave out the description but if you have a description 
-you **must** have an id.
+you **must** have an id. If the description contains angle brackets, they must be 
+escaped as their entities (`&lt;` and `&gt;`).
 
 Please note that `idxnum` tags cannot be nested!
 
@@ -63,6 +64,9 @@ First release
 
 ### Version 1.1
 Toolbar buttons
+
+### Version 1.1.1
+Bugfix for Toolbar buttons
 
 
 
