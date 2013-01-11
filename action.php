@@ -45,7 +45,7 @@ class action_plugin_indexnumber extends DokuWiki_Action_Plugin {
       $event->data[] = array(
                   'type'   => 'indexnumberpicker',
                   'title'  => "index numbers",
-                  'icon'   => 'picker.png',
+                  'icon'   => '../../plugins/indexnumber/indexnumber_icon.png',
                   'list'   => $index_list,
                   'idxrefs' => false
                   );
