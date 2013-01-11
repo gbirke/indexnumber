@@ -28,7 +28,7 @@ function createIndexnumberPicker(id,list, edid){
   
   function getInsertHandler(idxname) {
     return function(){  
-          indexnumberPickerInsert(id, idxname, edid);
+          indexnumberPickerInsert(idxname, edid);
     };
   }
     var picker, btn, i, body;

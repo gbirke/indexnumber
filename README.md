@@ -65,5 +65,8 @@ First release
 ### Version 1.1
 Toolbar buttons
 
+### Version 1.1.1
+Bugfix for Toolbar buttons
+
 
 
