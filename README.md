@@ -50,6 +50,13 @@ Please note that `idxnum` tags cannot be nested!
     {{snow.jpg}}
     </idxnum>
 
+## Changelog
+
+### Version 1.0
+First release
+
+### Version 1.1
+Toolbar buttons
 
 
 
