@@ -19,12 +19,17 @@ If you want to have separator chars between the index number and the description
 you can also configure that on the wiki configuration page.
 
 ## Tag syntax
-Syntax for creating a counter number is `<idxnum countername #id Description>`.  
+Syntax for creating a counter number is 
+
+    <idxnum countername #id Description>
+       some text, {image} or |table|
+    </idxnum>
+
 `countername` is an arbitrary string like "Tab." or "Fig." that must not contain
 the "#" character. All `idxnum` tags with the same counter name will produce sequential
 numbers.  
-`#id` must be a number, prefixed by the # char. It can be used for referencing 
-the generated number with the indexreference plugin.  
+`#id` must be a number, prefixed by the # char. Each number must be unique for the page!
+The id can be used for referencing the generated number with the indexreference plugin.  
 `Description` is an arbitrary description and will be added to the output after
 the index number. You can leave out the description but if you have a description 
 you **must** have an id. If the description contains angle brackets, they must be 
