@@ -64,14 +64,15 @@ Please note that `idxnum` tags cannot be nested!
 
 ## Changelog
 
-### Version 1.0
-First release
-
-### Version 1.1
-Toolbar buttons
+### Version 1.2
+Release for newer DokuWiki versions
 
 ### Version 1.1.1
 Bugfix for Toolbar buttons
 
+### Version 1.1
+Toolbar buttons
 
+### Version 1.0
+First release
 
