@@ -16,7 +16,7 @@ configuration page and edit the field for index numbers configuration.
 Put each counter name on a new line.
 
 If you want to have separator chars between the index number and the description 
-you can also configure that on the wiki configuration page. Note that teh plugin
+you can also configure that on the wiki configuration page. Note that the plugin
 inserts no space after the separator char, you'll have to enter the space yourself.
 
 ## Tag syntax
