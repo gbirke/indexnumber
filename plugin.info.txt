@@ -1,0 +1,6 @@
+author	Gabriel Birke
+email	  gb@birke-software.de
+date	  2013-01-15
+name	  Index number Toolbar
+desc	  This plugin shows a picker for index numbers in the editor toolbar. The allowed index names can be configured
+url	    https://www.dokuwiki.org/plugin:indexnumber

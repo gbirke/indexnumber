@@ -11,21 +11,6 @@ require_once(DOKU_PLUGIN.'action.php');
  
 class action_plugin_indexnumber extends DokuWiki_Action_Plugin {
  
-  /**
-   * return some info
-   */
-  function getInfo(){
-    return array(
-     'author' => 'Gabriel Birke',
-     'email'  => 'gb@birke-software.de',
-     'date'   => '2013-01-15',
-     'name'   => 'Index number Toolbar',
-     'desc'   => 'This plugin shows a picker for index numbers in the editor toolbar.'. 
-                 'The allowed index names can be configured',
-     'url'    => 'http://www.birke-software.de/',
-     );
-  }
- 
   /*
    * Register the handlers with the dokuwiki's event controller
    */
