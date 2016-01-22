@@ -14,7 +14,7 @@ class action_plugin_indexnumber extends DokuWiki_Action_Plugin {
   /*
    * Register the handlers with the dokuwiki's event controller
    */
-  function register(&$controller) {
+  function register(Doku_Event_Handler $controller) {
     $controller->register_hook('TOOLBAR_DEFINE', 'AFTER',  $this, 'add_button');
   }
  
