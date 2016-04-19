@@ -73,7 +73,7 @@ class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
     /**
      * Handle the match
      */
-    function handle($match, $state, $pos, &$handler) {
+    function handle($match, $state, $pos, Doku_Handler $handler) {
         if($state == DOKU_LEXER_ENTER && preg_match('/<idxnum ([^#]+)(?:#(\d+)(.*))?>/', $match, $matches)) {
             $idxId = trim($matches[1]);
             if(empty($this->idxnumbers[$idxId])) {
@@ -117,7 +117,7 @@ class syntax_plugin_indexnumber extends DokuWiki_Syntax_Plugin {
      * 3 - Counter reference id, without # 
      * 4 - Description text
      */
-    function render($format, &$R, $data) {
+    function render($format, Doku_Renderer $R, $data) {
         if($format != 'xhtml'){
             return false;
         }
